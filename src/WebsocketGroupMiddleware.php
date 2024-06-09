@@ -14,12 +14,22 @@ class WebsocketGroupMiddleware
     protected $connectionGroup;
     protected $requestVerifier;
     protected $attribute;
+    protected $tokens = [];
 
-    public function __construct(ConnectionGroup $connectionGroup = null, $attribute = null)
+    public function __construct(ConnectionGroup $connectionGroup = null)
     {
         $this->connectionGroup = $connectionGroup ?? new ConnectionGroup();
-        $this->attribute = $attribute;
         $this->requestVerifier = new RequestVerifier();
+    }
+
+    public function setAttribute($attribute)
+    {
+        $this->attribute = $attribute;
+    }
+
+    public function setTokens($tokens)
+    {
+        $this->tokens = $tokens;
     }
 
     public function __invoke(ServerRequestInterface $request, $next = null)
@@ -34,14 +44,28 @@ class WebsocketGroupMiddleware
         $params = [];
         if ($request->getMethod() === 'POST') {
             $params = json_decode((string) $request->getBody(), true);
-            $params = $params ? : [];
+            $params = $params ?: [];
         }
         $params = $params + $request->getQueryParams();
+
+
+        if ($this->tokens) {
+            $token = $params['token'] ?? '';
+            if (!in_array($token, $this->tokens)) {
+                return Response::json([
+                    'code' => 1,
+                    'msg' => 'token error',
+                    'data' => []
+                ]);
+            }
+        }
+
         if ($this->attribute) {
             $event = $request->getAttribute('event');
         } else {
             $event = ltrim($request->getUri()->getPath(), '/');
         }
+        
         $events = explode(',', $event);
         $methodToParams = [];
         $extra = [];
@@ -88,27 +112,27 @@ class WebsocketGroupMiddleware
         foreach ($methodToParams as $m => $p) {
             $data[$m] = $this->connectionGroup->{$m}(...$p);
         }
-      
-            return $this->getJsonPromise($data)->then(function ($data) use ($extra) {
-                return Response::json([
-                    'code' => 0,
-                    'msg' => 'ok',
-                    'extra' => $extra,
-                    'data' => $data
-                ]);
-            }, function ($e) {
-                return Response::json([
-                    'code' => 1,
-                    'msg' => $e->getMessage(),
-                    'data' => []
-                ]);
-            })->catch(function ($e) {
-                return Response::json([
-                    'code' => 1,
-                    'msg' => $e->getMessage(),
-                    'data' => []
-                ]);
-            });
+
+        return $this->getJsonPromise($data)->then(function ($data) use ($extra) {
+            return Response::json([
+                'code' => 0,
+                'msg' => 'ok',
+                'extra' => $extra,
+                'data' => $data
+            ]);
+        }, function ($e) {
+            return Response::json([
+                'code' => 1,
+                'msg' => $e->getMessage(),
+                'data' => []
+            ]);
+        })->catch(function ($e) {
+            return Response::json([
+                'code' => 1,
+                'msg' => $e->getMessage(),
+                'data' => []
+            ]);
+        });
     }
 
     public function getJsonPromise($array = [])
@@ -128,6 +152,5 @@ class WebsocketGroupMiddleware
 
         $jsonStream->end($array);
         return $deferred->promise();
-       
     }
 }
