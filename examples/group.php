@@ -17,7 +17,7 @@ $connectionGroup->on('open', function ($conn, $request) use ($connectionGroup) {
         'cmd' => 'open',
         '_id' => $conn->_id,
     ]));
-    $connectionGroup->bindId(1, $conn->_id);
+    // $connectionGroup->bindId(1, $conn->_id);
 });
 
 $connectionGroup->on('message', function ($from, $msg) use ($connectionGroup) {
