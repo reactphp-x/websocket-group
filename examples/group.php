@@ -12,7 +12,7 @@ $connectionGroup = SingleConnectionGroup::instance();
 // $connectionGroup = new ConnectionGroup;
 
 $connectionGroup->on('open', function ($conn, $request) use ($connectionGroup) {
-    var_dump('open', $conn->_id, $request->getQueryParams());
+    // var_dump('open', $conn->_id, $request->getServerParams());
     $connectionGroup->sendMessageTo_id($conn->_id, json_encode([
         'cmd' => 'open',
         '_id' => $conn->_id,
@@ -22,7 +22,14 @@ $connectionGroup->on('open', function ($conn, $request) use ($connectionGroup) {
 
 $connectionGroup->on('message', function ($from, $msg) use ($connectionGroup) {
     var_dump('message', $from->_id, $msg);
-    $connectionGroup->sendMessageToId(1, 'get it');
+    // $connectionGroup->sendMessageToId(1, 'get it');
+    if ($msg == 'ping') {
+        $connectionGroup->sendMessageTo_id($from->_id, json_encode([
+            'cmd' => 'open',
+            '_id' => $from->_id,
+        ]));
+    }
+
 });
 
 $connectionGroup->on('close', function ($conn, $reason) {
