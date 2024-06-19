@@ -63,7 +63,15 @@ class WebsocketGroupMiddleware
         if ($this->attribute) {
             $event = $request->getAttribute('event');
         } else {
-            $event = ltrim($request->getUri()->getPath(), '/');
+            $event = $params['event'] ?? '';
+        }
+
+        if (!$event) {
+            return Response::json([
+                'code' => 1,
+                'msg' => 'event error',
+                'data' => []
+            ]);
         }
         
         $events = explode(',', $event);
