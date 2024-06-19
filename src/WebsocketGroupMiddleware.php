@@ -66,7 +66,7 @@ class WebsocketGroupMiddleware
             $event = $params['event'] ?? '';
         }
 
-        if (!$event) {
+        if (!$event || !is_string($event)) {
             return Response::json([
                 'code' => 1,
                 'msg' => 'event error',
