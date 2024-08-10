@@ -1,8 +1,8 @@
 <?php
 
-namespace Reactphp\Framework\WebsocketGroup;
+namespace ReactphpX\WebsocketGroup;
 
-use Reactphp\Framework\ConnectionGroup\ConnectionGroup;
+use ReactphpX\ConnectionGroup\ConnectionGroup;
 use Psr\Http\Message\ServerRequestInterface;
 use Ratchet\RFC6455\Handshake\RequestVerifier;
 use React\Http\Message\Response;

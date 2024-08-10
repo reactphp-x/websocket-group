@@ -1,11 +1,11 @@
 <?php
 
-namespace Reactphp\Framework\WebsocketGroup;
+namespace ReactphpX\WebsocketGroup;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Reactphp\Framework\WebsocketMiddleware\ConnectionInterface;
-use Reactphp\Framework\WebsocketMiddleware\MessageComponentInterface;
-use Reactphp\Framework\ConnectionGroup\ConnectionGroup;
+use ReactphpX\WebsocketMiddleware\ConnectionInterface;
+use ReactphpX\WebsocketMiddleware\MessageComponentInterface;
+use ReactphpX\ConnectionGroup\ConnectionGroup;
 
 class WebsocketGroupComponent implements MessageComponentInterface
 {

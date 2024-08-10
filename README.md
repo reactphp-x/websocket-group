@@ -1,9 +1,9 @@
-# reactphp-framework/websocket-group
+# reactphp-x/websocket-group
 
 # install 
 
 ```
-composer require reactphp-framework/websocket-group -vvv
+composer require reactphp-x/websocket-group -vvv
 ```
 
 # Usage
@@ -13,11 +13,11 @@ composer require reactphp-framework/websocket-group -vvv
 
 require __DIR__ . '/vendor/autoload.php';
 
-use Reactphp\Framework\WebsocketGroup\WebsocketGroupComponent;
-use Reactphp\Framework\WebsocketGroup\WebsocketGroupMiddleware;
-use Reactphp\Framework\ConnectionGroup\ConnectionGroup;
-use Reactphp\Framework\ConnectionGroup\SingleConnectionGroup;
-use Reactphp\Framework\WebsocketMiddleware\WebsocketMiddleware;
+use ReactphpX\WebsocketGroup\WebsocketGroupComponent;
+use ReactphpX\WebsocketGroup\WebsocketGroupMiddleware;
+use ReactphpX\ConnectionGroup\ConnectionGroup;
+use ReactphpX\ConnectionGroup\SingleConnectionGroup;
+use ReactphpX\WebsocketMiddleware\WebsocketMiddleware;
 
 $connectionGroup = SingleConnectionGroup::instance();
 // $connectionGroup = new ConnectionGroup;
@@ -58,7 +58,7 @@ visit http://10.10.10.2:8090/isOnlineId,sendMessageToId?isOnlineId[id]=1&sendMes
 
 # see mor message
 
-Reactphp\Framework\ConnectionGroup\ConnectionGroup
+ReactphpX\ConnectionGroup\ConnectionGroup
 
 
 # License
