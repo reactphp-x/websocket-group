@@ -11,7 +11,7 @@ class WebsocketGroupComponent implements MessageComponentInterface
 {
     protected $connectionGroup;
 
-    public function __construct(ConnectionGroup $connectionGroup = null)
+    public function __construct(?ConnectionGroup $connectionGroup = null)
     {
         $this->connectionGroup = $connectionGroup ?? new ConnectionGroup();
     }

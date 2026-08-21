@@ -13,6 +13,7 @@
         }
     ],
     "require": {
+        "php": ">=8.1",
         "reactphp-x/websocket-middleware": "^1.0",
         "reactphp-x/connection-group": "^1.0",
         "wpjscc/react-stream-json": "^1.0"
