@@ -16,7 +16,7 @@ class WebsocketGroupMiddleware
     protected $attribute;
     protected $tokens = [];
 
-    public function __construct(ConnectionGroup $connectionGroup = null)
+    public function __construct(?ConnectionGroup $connectionGroup = null)
     {
         $this->connectionGroup = $connectionGroup ?? new ConnectionGroup();
         $this->requestVerifier = new RequestVerifier();
